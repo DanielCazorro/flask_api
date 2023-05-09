@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block scripts%}
+<script src="/static/js/balance.js"></script>
+{% endblock scripts %}
+
+
+
+{% block contenido %}
+
+<h1>App de movimientos</h1>
+
+<section class="seccion-movimientos">
+  <table class="paper">
+    <thead>
+      <tr>
+        <th class="titulo-tabla">Fecha</th>
+        <th class="titulo-tabla">Concepto</th>
+        <th class="titulo-tabla">Tipo</th>
+        <th class="titulo-tabla numero">Cantidad</th>
+        <th class="titulo-tabla acciones">Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpo-tabla">
+      <!-- Aquí tenemos que cargar los movimientos que leamos desde la API -->
+    </tbody>
+  </table>
+</section>
+
+{% endblock contenido %}
