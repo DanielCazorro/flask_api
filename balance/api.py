@@ -5,52 +5,40 @@ from .config import DEFAULT_PAG, PAG_SIZE
 from .forms import MovimientoForm
 from .models import DBManager
 
-# Llamadas a la API, devuelven JSON
-
 RUTA = app.config.get('RUTA')
 
-
+# Ruta para listar movimientos
 @app.route('/api/v1/movimientos')
 def listar_movimientos():
     try:
-
-        # recoger los parámetros de la consulta desde la URL
-        # query params
+        # Obtenemos los parámetros de la consulta desde la URL (query params)
         try:
             pagina = int(request.args.get('p', DEFAULT_PAG))
-        except:
+        except ValueError:
             pagina = DEFAULT_PAG
 
         try:
             tamanyo = int(request.args.get('r', PAG_SIZE))
-        except:
+        except ValueError:
             tamanyo = PAG_SIZE
 
+        # Conectamos a la base de datos y ejecutamos la consulta SQL
         db = DBManager(RUTA)
         sql = 'SELECT * FROM movimientos'
         movimientos = db.consultaSQL(sql, pagina, tamanyo)
+
         if len(movimientos) > 0:
-            resultado = {
-                "status": "success",
-                "results": movimientos
-            }
+            resultado = {"status": "success", "results": movimientos}
             status_code = 200
         else:
-            resultado = {
-                'status': 'error',
-                'message': f'No hay movimientos en el sistema'
-            }
+            resultado = {"status": "error", "message": 'No hay movimientos en el sistema'}
             status_code = 404
 
     except Exception as error:
-        resultado = {
-            "status": "error",
-            "message": str(error)
-        }
+        resultado = {"status": "error", "message": str(error)}
         status_code = 500
 
     return jsonify(resultado), status_code
-
 
 @app.route('/api/v1/movimientos/<int:id>')
 def get_movimiento(id):

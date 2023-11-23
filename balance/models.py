@@ -1,6 +1,5 @@
 from datetime import date
 import sqlite3
-
 from .config import DEFAULT_PAG, PAG_SIZE
 
 """
